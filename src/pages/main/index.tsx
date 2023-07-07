@@ -1,38 +1,44 @@
-import React, { useState } from "react";
-import "./index.scss";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react'
+import './index.scss'
+import CaseNameSetter from '../../components/CaseNameSetter'
 
 function MainPage(): JSX.Element {
-  const navigate = useNavigate();
-  const [isHover, setIsHover] = useState<IIsHover>({
-    greet: false,
-    iam: false,
-    name: false,
-  });
+    const [caseName, setCaseName] = useState<string>('')
+    const [isConfirmed, setIsConfirmed] = useState<boolean>(false)
 
-  const handleMouseEnter = (field: string) => {
-    setIsHover((prev) => ({ ...prev, [field]: true }));
-  };
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setCaseName(event.target.value)
+    }
 
-  const handleMouseLeave = (field: string) => {
-    setIsHover((prev) => ({ ...prev, [field]: false }));
-  };
+    const handleConfirmName = () => {
+        setIsConfirmed(!isConfirmed)
+    }
 
-  const handleGoPage = (field: string) => {
-    navigate(`/${field}`);
-  };
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            setIsConfirmed(!isConfirmed)
+        }
+    }
 
-  return (
-    <section className="main-container">
-      <article className="main-content">엘렐레</article>
-    </section>
-  );
+    return (
+        <section className="main-container">
+            <article className="main-content">
+                <CaseNameSetter
+                    caseName={caseName}
+                    isConfirmed={isConfirmed}
+                    onChange={handleChange}
+                    onConfirmName={handleConfirmName}
+                    onKeyDown={handleKeyDown}
+                />
+            </article>
+        </section>
+    )
 }
 
 export interface IIsHover {
-  greet: boolean;
-  iam: boolean;
-  name: boolean;
+    greet: boolean
+    iam: boolean
+    name: boolean
 }
 
-export default MainPage;
+export default MainPage
