@@ -3,6 +3,7 @@ import './index.scss'
 import CaseNameSetter from '../../components/CaseNameSetter'
 import CaseCategory from '../../components/CaseCategory'
 import FileUploader from '../../components/FileUploader'
+import EvidenceList from '../../components/EvidenceList'
 
 function MainPage(): JSX.Element {
     const [caseName, setCaseName] = useState<string>('')
@@ -51,10 +52,15 @@ function MainPage(): JSX.Element {
                     caseName={caseName}
                     onUploadFiles={handleUploadFiles}
                 />
-                <CaseCategory
-                    caseCategory={caseCategory}
-                    onChange={handleCategoryChange}
-                />
+                <div className="evidence-container">
+                    <CaseCategory
+                        caseCategory={caseCategory}
+                        onChange={handleCategoryChange}
+                    />
+                    {files && (
+                        <EvidenceList caseName={caseName} files={files} />
+                    )}
+                </div>
             </article>
         </section>
     )
