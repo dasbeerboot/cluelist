@@ -8,7 +8,7 @@ import EvidenceList from '../../components/EvidenceList'
 function MainPage(): JSX.Element {
     const [caseName, setCaseName] = useState<string>('')
     const [caseCategory, setCaseCategory] = useState<string>('갑')
-    const [files, setFiles] = useState<FileType[]>()
+    const [files, setFiles] = useState<any[]>()
     const [isConfirmed, setIsConfirmed] = useState<boolean>(false)
 
     const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,13 +29,10 @@ function MainPage(): JSX.Element {
         setCaseCategory(val)
     }
 
-    const handleUploadFiles = (files: any) => {
-        setFiles(files)
-        console.log(
-            files.map((file: any) => {
-                return file.name
-            }),
-        )
+    const handleUploadFiles = async (files: any) => {
+        await Promise.all(files).then((result) => {
+            setFiles(result)
+        })
     }
 
     return (
