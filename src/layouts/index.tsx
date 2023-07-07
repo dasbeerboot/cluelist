@@ -1,17 +1,19 @@
-import React, { Suspense } from 'react'
-import { renderRoutes, RouteConfig } from 'react-router-config'
-import './index.scss'
-import Header from './Header'
+import React, { Suspense } from "react";
+import "./index.scss";
+import Header from "./Header";
+import { Outlet } from "react-router-dom";
 
-function MainLayout({ route }: RouteConfig): JSX.Element {
+function MainLayout(): JSX.Element {
   return (
     <main className="main-layout-container">
       <Header />
       <section className="main-contents-container">
-        <Suspense fallback={<div>loading</div>}>{renderRoutes(route.routes)}</Suspense>
+        <Suspense fallback={<div>loading</div>}>
+          <Outlet />
+        </Suspense>
       </section>
     </main>
-  )
+  );
 }
 
-export default MainLayout
+export default MainLayout;

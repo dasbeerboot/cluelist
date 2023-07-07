@@ -1,27 +1,16 @@
-import { RouteConfig } from "react-router-config";
+import * as React from "react";
+import { RouteObject } from "react-router-dom";
 import MainLayout from "./layouts/index";
 import MainPage from "./pages/main/index";
 
-const routes: RouteConfig[] = [
+const routes: RouteObject[] = [
   {
-    route: "*",
-    component: MainLayout,
-    routes: [
+    element: <MainLayout />,
+    children: [
       {
         path: "/",
-        exact: true,
-        component: MainPage,
+        element: <MainPage />,
       },
-      //   {
-      //     path: '/about',
-      //     exact: true,
-      //     component: AboutPage,
-      //   },
-      //   {
-      //     path: '/works',
-      //     exact: true,
-      //     component: WorksPage,
-      //   },
     ],
   },
 ];

@@ -1,13 +1,24 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import routes from './routes'
-import { HashRouter as BrowserRouter } from 'react-router-dom'
-import { renderRoutes } from 'react-router-config'
-import './index.scss'
+import * as React from "react";
+import CreateDOM from "react-dom/client";
+import { createHashRouter, RouterProvider } from "react-router-dom";
+import "./index.scss";
 
-ReactDOM.render(
-  <>
-    <BrowserRouter>{renderRoutes(routes)}</BrowserRouter>
-  </>,
-  document.getElementById('root'),
-)
+import MainLayout from "./layouts/index";
+import MainPage from "./pages/main/index";
+
+const rootElement = document.getElementById("root");
+if (!rootElement) throw new Error("Failed to find the root element");
+const router = createHashRouter([
+  {
+    element: <MainLayout />,
+    id: "root",
+    children: [
+      {
+        path: "/",
+        element: <MainPage />,
+      },
+    ],
+  },
+]);
+
+CreateDOM.createRoot(rootElement).render(<RouterProvider router={router} />);
