@@ -1,0 +1,30 @@
+.portfolio-header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  width: 100%;
+  height: 3rem;
+  line-height: 3rem;
+  z-index: 1;
+  background-color: #ffffff;
+  .header-title {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    color: #2c2b2bd8;
+    font-size: 1.5rem;
+    font-weight: 500;
+
+    .icons {
+      .git {
+        margin-right: 1rem;
+      }
+    }
+
+    svg {
+      cursor: pointer;
+    }
+  }
+}

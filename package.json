@@ -40,5 +40,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-router-config": "^5.0.7",
+    "react-router-config": "^5.1.1"
   }
 }
