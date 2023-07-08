@@ -17,7 +17,12 @@ function Base64Modal({
 }: Base64ModalProps): JSX.Element {
     return (
         <Dialog open={isOpen} maxWidth="lg">
-            <ClickAwayListener onClickAway={closeModal}>
+            <ClickAwayListener
+                onClickAway={(e) => {
+                    e.preventDefault
+                    closeModal()
+                }}
+            >
                 <div className="container">
                     {type === 'application/pdf' ? (
                         <embed src={base64} />

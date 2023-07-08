@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './index.scss'
 import CaseNameSetter from '../../components/CaseNameSetter'
 import CaseCategory from '../../components/CaseCategory'
@@ -9,6 +9,7 @@ function MainPage(): JSX.Element {
     const [caseName, setCaseName] = useState<string>('')
     const [caseCategory, setCaseCategory] = useState<string>('갑')
     const [files, setFiles] = useState<any[]>()
+    const [dragItems, setDragItems] = useState<any[]>(files)
     const [isConfirmed, setIsConfirmed] = useState<boolean>(false)
 
     const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,6 +36,14 @@ function MainPage(): JSX.Element {
         })
     }
 
+    const handleSetItems = (items: any) => {
+        setFiles(items)
+    }
+
+    useEffect(() => {
+        setDragItems(files)
+    }, [files])
+
     return (
         <section className="main-container">
             <article className="main-content">
@@ -55,7 +64,11 @@ function MainPage(): JSX.Element {
                         onChange={handleCategoryChange}
                     />
                     {files && (
-                        <EvidenceList caseName={caseName} files={files} />
+                        <EvidenceList
+                            caseName={caseName}
+                            files={files}
+                            onSetItems={handleSetItems}
+                        />
                     )}
                 </div>
             </article>
