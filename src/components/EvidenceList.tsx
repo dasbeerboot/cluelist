@@ -5,7 +5,7 @@ import {
     Droppable,
     DropResult,
 } from 'react-beautiful-dnd'
-import './EvidenceItem.scss'
+import './EvidenceList.scss'
 import EvidenceItem from './EvidenceItem'
 import Base64Modal from './Base64Modal'
 
@@ -21,21 +21,35 @@ function EvidenceList({
     onSetItems,
 }: EvidenceListProps): JSX.Element {
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const onDragEnd = ({ draggableId, source, destination }: DropResult) => {
+    const onDeleteItem = (id: string) => {
+        const idx = files.indexOf(files.find((file) => file.id === id))
+        const arr = files
+        arr.splice(idx, 1)
+        console.log(arr)
+        onSetItems(arr)
+        console.log(files)
+    }
+    const onDragEnd = ({ source, destination }: DropResult) => {
         if (!destination) return
 
-        const sourceKey = source.droppableId
-        // as TItemStatus;
-        const destinationKey = destination.droppableId
-        //  as TItemStatus;
+        const sourceIdx = source.index
+        const destinationIdx = destination.index
 
-        const _items = JSON.parse(JSON.stringify(files)) as typeof files
-        const targetItem = _items[sourceKey].splice(source.index, 1)
-        _items[destinationKey].splice(destination.index, 0, targetItem)
-        onSetItems(_items)
+        files.map((file) => {
+            if (file.orderIdx === sourceIdx) {
+                file.orderIdx = destinationIdx
+            } else if (file.orderIdx === destinationIdx) {
+                if (destinationIdx > sourceIdx) {
+                    file.orderIdx = destinationIdx - 1
+                } else if (destinationIdx < sourceIdx) {
+                    file.orderIdx = destinationIdx + 1
+                }
+            }
+        })
+        files.sort((a, b) => a.orderIdx - b.orderIdx)
+        onSetItems(files)
     }
 
-    // --- requestAnimationFrame 초기화
     const [enabled, setEnabled] = useState(false)
 
     useEffect(() => {
@@ -50,158 +64,65 @@ function EvidenceList({
     if (!enabled) {
         return null
     }
-    // --- requestAnimationFrame 초기화 END
 
     return (
-        <div className="flex">
+        <div className="evidence-container">
             <DragDropContext onDragEnd={onDragEnd}>
-                <div>
-                    {files.map((file, idx) => {
-                        return (
-                            <Droppable key={file.id} droppableId={file.id}>
-                                {(provided, snapshot) => {
-                                    return (
-                                        <div
-                                            className="evidence-container"
-                                            ref={provided.innerRef}
-                                            {...provided.droppableProps}
-                                            key={file.name}
-                                        >
-                                            {provided.placeholder}
-                                            <Draggable
-                                                key={file.id}
-                                                draggableId={file.id}
-                                                index={idx}
+                <Droppable droppableId="list">
+                    {(provided) => (
+                        <div
+                            className="evidence-wrapper"
+                            {...provided.droppableProps}
+                            ref={provided.innerRef}
+                        >
+                            {files.map((file, index) => {
+                                return (
+                                    <Draggable
+                                        draggableId={file.id}
+                                        index={index}
+                                        key={file.id}
+                                    >
+                                        {(provided) => (
+                                            <div
+                                                className="item-wrapper"
+                                                ref={provided.innerRef}
+                                                {...provided.draggableProps}
+                                                {...provided.dragHandleProps}
                                             >
-                                                {(provided, snapshot) => {
-                                                    return (
-                                                        <div
-                                                            key={idx}
-                                                            ref={
-                                                                provided.innerRef
-                                                            }
-                                                            {...provided.draggableProps}
-                                                            {...provided.dragHandleProps}
-                                                        >
-                                                            <div>
-                                                                제 {idx + 1}호증
-                                                            </div>
-                                                            <EvidenceItem
-                                                                caseName={
-                                                                    caseName
-                                                                }
-                                                                file={file}
-                                                            />
-                                                            <Base64Modal
-                                                                type={file.type}
-                                                                base64={
-                                                                    file.base64
-                                                                }
-                                                                isOpen={
-                                                                    isModalOpen
-                                                                }
-                                                                closeModal={() =>
-                                                                    setIsModalOpen(
-                                                                        false,
-                                                                    )
-                                                                }
-                                                            />
-                                                        </div>
-                                                    )
-                                                }}
-                                            </Draggable>
-                                        </div>
-                                    )
-                                }}
-                            </Droppable>
-                        )
-                    })}
-                </div>
-                {/* <div className="grid flex-1 select-none grid-cols-2 gap-4 rounded-lg">
-                    {Object.keys(files).map((key) => (
-                        <Droppable key={key} droppableId={key}>
-                            {(provided, snapshot) => (
-                                <div
-                                    ref={provided.innerRef}
-                                    {...provided.droppableProps}
-                                    // className={(
-                                    //   'flex flex-col gap-3 rounded-xl bg-gray-200 p-4 ring-1 ring-gray-300 transition-shadow dark:bg-[#000000]',
-                                    //   snapshot.isDraggingOver ? 'shadow-lg' : 'shadow',
-                                    // )}
-                                >
-                                    <span className="text-xs font-semibold">
-                                        {key.toLocaleUpperCase()}
-                                    </span>
-                                    {files.map((item, index) => (
-                                        <Draggable
-                                            key={item.id}
-                                            draggableId={item.id}
-                                            index={index}
-                                        >
-                                            {(provided, snapshot) => (
-                                                <div
-                                                    ref={provided.innerRef}
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                    // className={(
-                                                    //   'rounded-lg bg-white p-4 transition-shadow dark:bg-[#121212]',
-                                                    //   snapshot.isDragging
-                                                    //     ? 'bg-opacity-90 shadow-2xl shadow-gray-400'
-                                                    //     : 'shadow',
-                                                    // )}
-                                                >
-                                                    <h5 className="font-semibold">
-                                                        {item.title}
-                                                    </h5>
-                                                    <span className="text-sm text-gray-500">
-                                                        Make the world beatiful
-                                                    </span>
+                                                <div className="order">
+                                                    제 {index + 1}
+                                                    호증
                                                 </div>
-                                            )}
-                                        </Draggable>
-                                    ))}
-                                    {provided.placeholder}
-                                </div>
-                            )}
-                        </Droppable>
-                    ))}
-                </div> */}
+                                                <EvidenceItem
+                                                    caseName={caseName}
+                                                    file={file}
+                                                />
+                                                <Base64Modal
+                                                    type={file.type}
+                                                    base64={file.base64}
+                                                    isOpen={isModalOpen}
+                                                    closeModal={() =>
+                                                        setIsModalOpen(false)
+                                                    }
+                                                />
+                                                <button
+                                                    onClick={() =>
+                                                        onDeleteItem(file.id)
+                                                    }
+                                                >
+                                                    X
+                                                </button>
+                                            </div>
+                                        )}
+                                    </Draggable>
+                                )
+                            })}
+                            {provided.placeholder}
+                        </div>
+                    )}
+                </Droppable>
             </DragDropContext>
         </div>
     )
 }
-
-// import React, { useState } from 'react'
-// import './EvidenceItem.scss'
-// import EvidenceItem from './EvidenceItem'
-// import Base64Modal from './Base64Modal'
-
-// export type EvidenceListProps = {
-//     caseName: string
-//     files: any[]
-// }
-
-// function EvidenceList({ caseName, files }: EvidenceListProps): JSX.Element {
-//     const [isModalOpen, setIsModalOpen] = useState(false)
-//     console.log(files)
-//     return (
-// ;<div>
-//     {files.map((file, idx) => {
-//         return (
-//             <div className="evidence-container" key={idx}>
-//                 <div>제 {idx + 1}호증</div>
-//                 <EvidenceItem caseName={caseName} file={file} />
-//                 <Base64Modal
-//                     type={file.type}
-//                     base64={file.base64}
-//                     isOpen={isModalOpen}
-//                     closeModal={() => setIsModalOpen(false)}
-//                 />
-//             </div>
-//         )
-//     })}
-// </div>
-//     )
-// }
-
 export default EvidenceList

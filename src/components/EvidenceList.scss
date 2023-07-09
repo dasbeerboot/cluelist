@@ -1,4 +1,26 @@
 .evidence-container {
-    display: flex;
-    flex-direction: column;
+    .evidence-wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        .item-wrapper {
+            border: 1px dotted #d0d0d0;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: row;
+            height: 2rem;
+            align-items: center;
+            justify-content: center;
+            padding: 0 1rem;
+            button {
+                cursor: pointer;
+            }
+
+            .order {
+                margin-right: 1rem;
+            }
+        }
+    }
 }

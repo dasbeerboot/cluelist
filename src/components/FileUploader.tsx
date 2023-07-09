@@ -13,7 +13,7 @@ function FileUploader({
     const handleUploadFiles = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files
         const fileListAsArray = Array.from(files as FileList)
-        const newFiles: any[] = fileListAsArray.map(async (file) => {
+        const newFiles: any[] = fileListAsArray.map(async (file, idx) => {
             const data = await new Promise((resolve, reject) => {
                 const reader = new FileReader()
                 reader.onload = () => resolve(reader.result)
@@ -25,6 +25,8 @@ function FileUploader({
                     id: `${caseName}-${file.name}`,
                     base64: result,
                     type: file.type,
+                    orderIdx: idx,
+                    idx: idx,
                 }
             })
             return data
