@@ -1,5 +1,6 @@
 {
     "name": "cluelist",
+    "homepage": "https://dasbeerboot.github.io/cluelist/",
     "version": "0.1.0",
     "private": true,
     "dependencies": {
@@ -20,6 +21,7 @@
         "eslint-config-prettier": "^8.8.0",
         "eslint-plugin-prettier": "^4.2.1",
         "eslint-plugin-react": "^7.32.2",
+        "gh-pages": "^5.0.0",
         "prettier": "^3.0.0",
         "react": "^18.2.0",
         "react-beautiful-dnd": "^13.1.1",
@@ -36,7 +38,8 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "ts-node": "ts-node -r tsconfig-paths/register ./src/index.ts"
+        "ts-node": "ts-node -r tsconfig-paths/register ./src/index.ts",
+        "deploy": "gh-pages -d build"
     },
     "eslintConfig": {
         "extends": [
