@@ -25,9 +25,7 @@ function EvidenceList({
         const idx = files.indexOf(files.find((file) => file.id === id))
         const arr = files
         arr.splice(idx, 1)
-        console.log(arr)
         onSetItems(arr)
-        console.log(files)
     }
     const onDragEnd = ({ source, destination }: DropResult) => {
         if (!destination) return
