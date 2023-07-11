@@ -66,7 +66,7 @@ function MainPage(): JSX.Element {
                     {files && (
                         <EvidenceList
                             caseName={caseName}
-                            files={files}
+                            items={files}
                             onSetItems={handleSetItems}
                         />
                     )}
@@ -81,5 +81,7 @@ export type FileType = {
     id: string
     base64: any
     type: string
+    idx: number | string
+    hyphen: number | string
 }
 export default MainPage

@@ -22,11 +22,12 @@ function FileUploader({
             }).then((result) => {
                 return {
                     name: file.name,
-                    id: `${caseName}-${file.name}`,
+                    id: `${file.name}`,
                     base64: result,
                     type: file.type,
-                    orderIdx: idx,
-                    idx: idx,
+                    idx: idx + 1,
+                    orderIdx: idx + 1,
+                    hyphen: 0,
                 }
             })
             return data
