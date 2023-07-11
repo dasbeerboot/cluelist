@@ -41,17 +41,26 @@ function EvidenceList({
         onSetItems(arr)
     }
 
-    const onSetHyphen = (val: any, id: string) => {
-        const arr = files.map((file) => {
-            if (file.id === id) {
+    const onSetHyphen = (val: any, id: string, index: number) => {
+        const arr = files.map((file, idx) => {
+            if (file.id === id && val.value <= 1) {
                 return {
                     ...file,
+                    hyphen: val.value,
+                }
+            } else if (file.id === id && val.value > 1) {
+                console.log('엘렐레')
+                console.log('??', files[idx - 1].idx)
+                return {
+                    ...file,
+                    idx: files[idx - 1].idx,
                     hyphen: val.value,
                 }
             }
             return file
         })
         onSetItems(arr)
+        console.log(files)
     }
     const onDeleteItem = (id: string) => {
         const idx = files.indexOf(files.find((file) => file.id === id))
@@ -159,6 +168,7 @@ function EvidenceList({
                                                             onSetHyphen(
                                                                 val,
                                                                 file.id,
+                                                                file.idx,
                                                             )
                                                         }
                                                         placeholder={
