@@ -66,7 +66,7 @@ function MainPage(): JSX.Element {
                     {files && (
                         <EvidenceList
                             caseName={caseName}
-                            items={files}
+                            files={files}
                             onSetItems={handleSetItems}
                         />
                     )}
