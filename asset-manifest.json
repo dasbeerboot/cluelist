@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/cluelist/static/css/main.fd47e071.css",
+    "main.js": "/cluelist/static/js/main.f6f360ee.js",
+    "index.html": "/cluelist/index.html",
+    "main.fd47e071.css.map": "/cluelist/static/css/main.fd47e071.css.map",
+    "main.f6f360ee.js.map": "/cluelist/static/js/main.f6f360ee.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.fd47e071.css",
+    "static/js/main.f6f360ee.js"
+  ]
+}
