@@ -4,6 +4,7 @@ import CaseNameSetter from '../../components/CaseNameSetter'
 import CaseCategory from '../../components/CaseCategory'
 import FileUploader from '../../components/FileUploader'
 import EvidenceList from '../../components/EvidenceList'
+import DownloadAsTxt from '../../components/DownloadAsTxt'
 
 function MainPage(): JSX.Element {
     const [caseName, setCaseName] = useState<string>('')
@@ -54,10 +55,17 @@ function MainPage(): JSX.Element {
                     onConfirmName={handleConfirmName}
                     onKeyDown={handleKeyDown}
                 />
-                <FileUploader
-                    caseName={caseName}
-                    onUploadFiles={handleUploadFiles}
-                />
+                <div className="rnw-container">
+                    <FileUploader
+                        caseName={caseName}
+                        onUploadFiles={handleUploadFiles}
+                    />
+                    <DownloadAsTxt
+                        caseName={caseName}
+                        files={files}
+                        category={caseCategory}
+                    />
+                </div>
                 <div className="evidence-container">
                     <CaseCategory
                         caseCategory={caseCategory}
